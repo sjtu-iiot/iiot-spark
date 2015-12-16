@@ -1,0 +1,159 @@
+---
+layout: default
+title: Projects
+---
+
+<div class="row">
+<div class="col-md-12 col-centered">
+	<div class="triggerAnimation animated flexslider fadeInUp" data-animate="fadeInUp">
+		<ul class="cs-style-3 slides">
+			<li class="flex-active-slide" style="width: 100%; float: left; margin-right: -100%; position: relative; opacity: 1; display: block; z-index: 2;">
+			<div class="colio colio-placement-before" id="window"><div class="colio-container"></div><div class="colio-navigation"><a class="colio-prev" href="#"><span>Prev</span></a><a class="colio-next" href="#"><span>Next</span></a></div><a class="colio-close" href="#"><span>Close</span></a></div><ul class="grid">
+
+
+				<li data-content="#weibo" class="colio-item">
+				<div class="item col-lg-4 col-sm-4 col-xs-12">
+					<div class="item-wrap">
+						<figure class="colio-link">
+							<img src="../img/social_network.jpg" class="img-responsive" alt="" draggable="false">
+							<figcaption>
+							<h3>Weibo Analytics</h3>
+							<span class="fa fa-fighter-jet"></span>
+							<a href="/project/weibo" target="_blank">  More</a>
+							</figcaption>
+						</figure>
+					</div> <!-- END .item-wrap -->
+				</div> <!-- END .col-lg-4, .col-sm-4, .col-xs-12 -->
+				</li>
+				<li data-content="#acemap" class="colio-item">
+				<div class="item col-lg-4 col-sm-4 col-xs-12">
+					<div class="item-wrap">
+						<figure class="colio-link">
+							<img src="../img/rec_system.png" class="img-responsive" alt="" draggable="false">
+							<figcaption>
+							<h3>Acemap System</h3>
+							<a href="http://acemap.sjtu.edu.cn"> <span class="fa fa-fighter-jet"></span> More</a>
+							</figcaption>
+						</figure>
+					</div> <!-- END .item-wrap -->
+				</div> <!-- END .col-lg-4, .col-sm-4, .col-xs-12 -->
+				</li>
+				<li data-content="#graphx" class="colio-item">
+				<div class="item col-lg-4 col-sm-4 col-xs-12">
+					<div class="item-wrap">
+						<figure class="colio-link">
+							<img src="../img/graphx.png" class="img-responsive" alt="" draggable="false">
+							<figcaption>
+							<h3>GraphX</h3>
+							<a href="http://sjtu-iiot.github.io/graphx-algorithm"> <span class="fa fa-fighter-jet"></span> More</a>
+							</figcaption>
+						</figure>
+					</div> <!-- END .item-wrap -->
+				</div> <!-- END .col-lg-4, .col-sm-4, .col-xs-12 -->
+				</li>
+			</ul>
+			</li>
+
+		</ul> <!-- END .slides -->
+		<ol class="flex-control-nav flex-control-paging"></ol></div> <!-- END .flexslider, triggerAnimation, .animated -->
+
+
+
+
+	<div id="weibo" class="colio-content">
+
+		<div class="portfolio-title">
+			<h2 class="label label-success">Weibo analytics</h2>
+			<h3>Interesting Weibo statistics after operations on Spark Framework</h3>
+		</div> <!-- END .portfolio-title -->
+		<div class="portfolio-desc text-justify">
+			<p>
+			Here are some interesting characteristics discovered from the online Weibo community.
+		       	Our datasets include more than 1 million users along with 57 million Weibos communications.
+			</p>
+
+			<p class="text-center">
+			<a href="/project/weibo" target="_blank">
+				<span class="fa fa-link "></span> Details
+			</a>
+			</p>
+		</div> <!-- .portfolio-desc -->
+
+	</div>
+
+
+	<div id="acemap" class="colio-content">
+
+		<div class="portfolio-title">
+			<h2 class="label label-success">Acemap</h2>
+			<h3>Large-scale Academic Recommender System</h3>
+		</div> <!-- END .portfolio-title -->
+		<div class="portfolio-desc text-justify">
+			<p>
+			In this project, we build an academic research engine which can: 
+			return paper search results based on topic similarity with user's query; 
+			analyse the latent topic distribution and topic development over time; 
+			visualize the "topic tree" starting from a particular paper.
+			</p>
+			<p class="text-center">
+			<a href="http://acemap.sjtu.edu.cn" target="_blank"> <span class="fa fa-link "></span> Details </a>
+			</p>
+		</div> <!-- .portfolio-desc -->
+
+	</div>
+
+	<div id="graphx" class="colio-content">
+
+		<div class="portfolio-title">
+			<h2 class="label label-success">GraphX</h2>
+			<h3>Interactive Big Graph Algorithms on Spark</h3>
+		</div> <!-- END .portfolio-title -->
+		<div class="portfolio-desc text-justify">
+			<p>
+			Graph algorithms implemented in GraphX on Spark Cluster.
+			Firstly, the project provides an overall review on the graphx-related algorithms
+			and tutorials on basics of GraphX.
+			Furthermore, we implement algorithms in C/C++ and compare the performance with GraphX.
+			All writen programs are documented with stantdard annotations and examples.
+			</p>
+			<p class="text-center">
+			<a href="http://sjtu-iiot.github.io/graphx-algorithm" target="_blank"> <span class="fa fa-link "></span> Details </a>
+			</p>
+		</div> <!-- .portfolio-desc -->
+
+	</div>
+
+	<!--
+
+	<div id="tagprint" class="colio-content">
+
+		<div class="portfolio-title">
+			<h2 class="label label-success">TagPrint</h2>
+			<h3>Anti-counterfeiting via Federated RFID Tags</h3>
+		</div>
+		<div class="portfolio-desc text-justify">
+			<p>
+			RFID has been widely adopted as an effective method for anti-counterfeiting.
+			Legacy systems based on security protocol are either too heavy to be affordable by passive tags or suffering from various protocol-layer attacks,
+			e.g. reverse engineering, cloning, side-channel.
+			In this project, we present a novel anti-counterfeiting system,
+			TagPrint, using COTS RFID tags and readers.
+			Achieving a low-cost and offline genuineness validation utilizing passive tags has been a daunting task.
+			Our system achieves these three goals by leveraging a few of federated tags’ fingerprints and geometric relationships.
+			In TagPrint, we ex- ploit a new kind of fingerprint, called phase fingerprint,
+			extracted from the phase value of the backscattered signal, provided by the COTS RFID readers.
+			To further solve the separation challenge, we devise a geometric solution to validate the genuineness.
+			We have implemented a prototype of TagPrint using COTS RFID devices.
+			The system has been tested extensively over 6,000 tags.
+			The results show that our new fingerprint exhibits a good fitness of uniform distribution and the system achieves a surprising Equal Error Rate of 0.1% for anti-counterfeiting.
+			</p>
+			<p class="text-center">
+			<a href="/project/tagprint" target="_blank"> <span class="fa fa-link "></span> Details </a>
+			</p>
+		</div>
+
+	</div>
+
+	-->
+</div>
+</div>
