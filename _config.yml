@@ -12,7 +12,7 @@ encoding:         'utf-8'
 title:            Spark AT SJTU
 tagline:          Spark AT SJTU
 paginate:         8
-baseurl:          /
+baseurl:          /iiot-spark
 
 pages_list:
   Home:  '/'
