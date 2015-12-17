@@ -47,7 +47,7 @@
 			    <div class="collapse navbar-collapse" id="navbar-collapse-1">
 				    <ul class="nav navbar-nav">
 			                    {% for pages in site.pages_list %}
-					            <li><a href="{{ pages[1]  }}">{{ pages[0] }}</a></li>
+                                <li><a href="{{ site.baseurl }}{{ pages[1]  }}">{{ pages[0] }}</a></li>
 			                    {% endfor %}
 				    </ul>
 			    </div>
