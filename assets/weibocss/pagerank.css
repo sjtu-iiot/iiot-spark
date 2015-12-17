@@ -1,0 +1,26 @@
+#page {
+	margin-top: 20px;
+	margin-bottom: 80px;
+}
+
+#page_img{
+	width: 70%;
+	margin-top: 20px;
+	margin-bottom: 80px;
+}
+
+#image{
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+#content {
+	margin-left: 100px;
+}
+
+#bp {
+	border-style: solid;
+	border-color: blue;
+	padding: 10px;
+	margin-bottom: 10px;
+}

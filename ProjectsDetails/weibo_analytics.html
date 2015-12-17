@@ -1,0 +1,432 @@
+---
+layout: weibo
+title: Weibo
+---
+
+
+        <div class="container-fluid">
+            <div class="row-fluid">
+
+                <div class="col-lg-14">
+                    <!--Body content-->
+                    <div class='well'>
+                        <h1>Weibo Topics statistics</h1>
+                        <p>Some statistics for the <a href='https://github.com/sjtu-iwct-prof-wang/iwct_spark'>Weibo Topics</a> dataset. These stats are refreshed on a daily basis. Graphs are drawn with the <a href='http://d3js.org'>D3.js JavaScript library</a>. Basic layout with <a href='http://getbootstrap.com/'>Twitter Bootstrap framework</a>.</p>
+                    </div>      
+                    <div class='well'>
+                        <h2>Basic Statistics</h2>
+                        <p class='stats'>Loading...</p>
+                    </div>
+                   <div class='well'>
+                        <h2>Sina Weibo hotest Topics Cloud </h2>
+                        <p id='top100cloud'></p>
+                    </div>
+
+                    <div class='well'>
+                        <h2>Temporal Patterns of Weibo Topics</h2>
+                        <p id='graph-tweets-per-month'></p>
+                    </div>
+                    <div class='well'>
+                        <h2>Geo-Distribution of Weibo Topics</h2>
+                        <p>This is the distribution of hot topics in the geography landscape</p>
+                        <p id='map'></p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <style>
+
+            .graph {
+                font: 10px sans-serif;
+            }
+
+            .stats{
+
+                /*margin-left: 50px;*/
+            }
+
+            .base-stat-key{
+                margin-right: 10px;
+            }
+            .base-stat-val{
+
+
+            }
+
+            .omdb-movie{
+                margin:0px;
+            }
+
+            .axis path,
+            .axis line {
+                fill: none;
+                stroke: #000;
+                shape-rendering: crispEdges;
+            }
+
+            .area {
+                fill: steelblue;
+                stroke:black;
+            }
+
+            .line {
+              fill: none;
+              stroke: steelblue;
+              stroke-width: 1.5px;
+            }
+
+
+            circle {
+                stroke: #000;
+                stroke-opacity: .5;
+            }
+
+        </style>
+
+        <script type="text/javascript">
+
+
+            function load_basic_stats_file(){
+                $.ajax({
+                    url: "{{ site.baseurl }}DataDir/weibo_analytics/basic_stats.csv",
+                    success: function(csvdata){
+                        $(".stats").html('');
+                        var lines = csvdata.split(/\n/);
+                        var length = lines.length;
+                        var keys = "";
+                        var vals = "";
+                        for (var i = 0; i < length; i++) {
+                            line = lines[i];
+                            line_arr =  line.split(/,/);
+                            key = line_arr[0];
+                            val = line_arr[1];
+                            if (typeof(val) != 'undefined'){
+                                keys += key + ':<br>';
+                                vals += '<strong>' + numberWithCommas(val) + '</strong><br>';
+                            }
+                        }
+                        $(".stats").append('<div class="base-stat-key pull-left">'+ keys + ' </div>');
+                        $(".stats").append('<div class="base-stat-val">'+ vals + ' </div>');
+                    },
+                    cache: false
+                });
+            }
+
+            function numberWithCommas(x){
+                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
+
+
+            function load_top_k_topics(){
+                $.ajax({
+                        url: "{{ site.baseurl }}DataDir/weibo_analytics/top_k_list.csv",
+                        cache: false,
+                        success: function(csvdata){
+                                $("#top10list").html('');
+                                var lines = csvdata.split(/\n/);
+                                var length = lines.length;
+                                var the_html = '';
+                                var keys = "";
+                                var vals = "";
+
+                                for (var i = 0; i < length; i++) {
+                                    line = lines[i];
+                                    line_arr =  line.split(/,/);
+                                    key = line_arr[0];
+                                    val = line_arr[1];
+                                    if (typeof(val) != 'undefined'){
+                                        keys += key + ':<br>';
+                                        vals += '<strong>' + numberWithCommas(val) + '</strong><br>';
+                                    }
+                                }
+                                the_html += ('<div class="base-stat-key pull-left">'+ keys + ' </div>');
+                                the_html += ('<div class="base-stat-val">'+ vals + ' </div>');
+
+                                            $("#top10list").html(the_html);
+                            }
+
+                       });
+
+            }
+
+
+
+            function words_cloud(){
+
+                $.ajax({
+                        url: "{{ site.baseurl }}DataDir/weibo_analytics/popular_100_topics.csv",
+                        cache: false,
+                        success: function(csvdata){
+
+                                var screen_width = $( window ).width() / 12 * 8;
+                                var margin = {top: 0, right: 28, bottom: 30, left: 20},
+                                width = (screen_width - (margin.left*2) - (margin.right*2)) ,
+                                height = 400 - margin.top - margin.bottom;
+
+                                  var fill = d3.scale.category20();
+
+                                    var lines = csvdata.split(/\n/);
+                                    var length = lines.length;
+                                    var keys   = [];
+                                    var MIN_value = 0;
+                                    var hot_topics = {};
+                                    for (var i = 1; i < length; i++) {
+                                        line = lines[i];
+                                        line_arr =  line.split(/,/);
+                                        keys.push(line_arr[0]);
+                                        hot_topics[line_arr[0]] = +line_arr[1];
+
+                                        if (i==1) {
+                                            var MIN_value = +line_arr[1]
+                                        }
+                                        else{
+                                            if (+line_arr[1]<MIN_value){
+                                                MIN_value = +line_arr[1]
+                                            };
+                                        };
+
+                                   };
+
+                                  var real_words = keys.map(
+                                                  function(d){
+                                                    return {text: d, size: 10*Math.log(hot_topics[d]*5/MIN_value)};
+                                                    });
+
+                                  var test_words = [ "Hello", "world", "normally", "you", "want", "more", "words",
+                                            "than", "this"].map(function(d) {
+                                            return {text: d, size: 30 + Math.random() * 90};
+                                          });
+
+                                  d3.layout.cloud().size([width, height])
+                                      .words(real_words)
+                                      .padding(1)
+                                      .rotate(function() { return ~~(Math.random() * 2)  * 80; })
+                                      .font("Impact")
+                                      .fontSize(function(d) { return d.size; })
+                                      .on("end", draw)
+                                      .start();
+
+                                  function draw(words) {
+                                    d3.select("#top100cloud").append("svg")
+                                        .attr("width", width)
+                                        .attr("height", height+30)
+                                      .append("g")
+                                        .attr("transform", "translate("+380+","+150+")")
+                                      .selectAll("text")
+                                        .data(words)
+                                      .enter().append("text")
+                                        .style("font-size", function(d) { return d.size + "px"; })
+                                        .style("font-family", "Impact")
+                                        .style("fill", function(d, i) { return fill(i); })
+                                        .attr("text-anchor", "middle")
+                                        .attr("transform", function(d) {
+                                          return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+                                        })
+                                        .text(function(d) { return d.text; });
+                                  }
+
+
+                        }
+                       });
+
+            }
+
+
+            function draw_topics_temporal(){
+
+                var screen_width = $( window ).width() / 12 * 8;
+                var margin = {top: 10, right: 75, bottom: 30, left: 85},
+                width = (screen_width - (margin.left*2) - (margin.right*2)) ,
+                height = 400 - margin.top - margin.bottom;
+
+                var parseDate = d3.time.format("%Y%m").parse;
+
+                var x = d3.time.scale()
+                .range([0, width]);
+
+                var y = d3.scale.linear()
+                .range([height, 0]);
+
+                var color = d3.scale.category10();
+
+                var xAxis = d3.svg.axis()
+                .scale(x)
+                .orient("bottom");
+
+                var yAxis = d3.svg.axis()
+                .scale(y)
+                .orient("left");
+
+                var line = d3.svg.line()
+                    .interpolate("basis")
+                    .x(function(d) { return x(d.date); })
+                    .y(function(d) { return y(d.tweets); });
+
+
+                function keys(obj){
+                    var keys = [];
+                    for(var key in obj)
+                    {
+                        if(obj.hasOwnProperty(key))
+                        {
+                            keys.push(key);
+                        }
+                    }
+                    return keys;
+                }
+
+                var area = d3.svg.area()
+                .x(function(d) { return x(d.date); })
+                .y0(height)
+                .y1(function(d) { return y(d.close); });
+
+
+                var svg = d3.select("#graph-tweets-per-month").append("svg")
+                    .attr("width", width + margin.left + margin.right)
+                    .attr("height", height + margin.top + margin.bottom)
+                  .append("g")
+                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+                d3.tsv("{{ site.baseurl }}DataDir/weibo_analytics/top_k_time.tsv", function(error, data) {
+                      color.domain(d3.keys(data[0]).filter(function(key) { return key !== "date"; }));
+
+                      data.forEach(function(d) {
+                        d.date = parseDate(d.date);
+                      });
+
+                      var cities = color.domain().map(function(name) {
+                        return {
+                          name: name,
+                          values: data.map(function(d) {
+                            return {date: d.date, tweets: +d[name]};
+                          })
+                        };
+                  });
+
+                  x.domain(d3.extent(data, function(d) { return d.date; }));
+
+                  y.domain([
+                    d3.min(cities, function(c) { return d3.min(c.values, function(v) { return v.tweets; }); }),
+                    d3.max(cities, function(c) { return d3.max(c.values, function(v) { return v.tweets; }); })
+                  ]);
+
+                  svg.append("g")
+                      .attr("class", "x axis")
+                      .attr("transform", "translate(0," + height + ")")
+                      .call(xAxis);
+
+                  svg.append("g")
+                      .attr("class", "y axis")
+                      .call(yAxis)
+                    .append("text")
+                      .attr("transform", "rotate(-90)")
+                      .attr("y", 0-5)
+                      .attr("x", 0-(height/2))
+                      .attr("dy","2em")
+                      .text("Number of Weibos");
+
+                  var city = svg.selectAll(".city")
+                      .data(cities)
+                    .enter().append("g")
+                      .attr("class", "city");
+
+                  city.append("path")
+                      .attr("class", "line")
+                      .attr("d", function(d) { return line(d.values); })
+                      .style("stroke", function(d) { return color(d.name); });
+
+
+                // adding legend
+
+                  var legend = svg.append("g")
+                        .attr("class","legend")
+                        .attr("x", width - 115)
+                        .attr("y", 25)
+                        .attr("height", 100)
+                        .attr("width",80);
+
+                  legend.selectAll("g")
+                      .data(cities)
+                      .enter().append('g')
+                      .each(function(d,i){
+                        var g = d3.select(this);
+                        g.append("rect")
+                        .attr("x", width - 115)
+                        .attr("y", i*25 + 10)
+                        .attr("width", 10)
+                        .attr("height",10)
+                        .style("fill",function(d) { return color(d.name); });
+
+                        g.append("text")
+                         .attr("x", width -100 )
+                         .attr("y", i*25 + 20)
+                         .attr("height",30)
+                         .attr("width",80)
+                         .style("fill",function(d) { return color(d.name); })
+                         .text(function(d) { return d.name;} );
+                      });
+
+
+                })
+            }
+
+
+            /* Load statistics from csv file*/
+            load_basic_stats_file();
+
+            /* Read the top 10 list */
+            load_top_k_topics();
+
+            /* draw the temporal variance of topics */
+            draw_topics_temporal();
+
+            /* draw the 100 hotest topics cloud*/
+            words_cloud()
+
+
+        // MAP setup
+        var screen_width = $( window ).width() / 12 * 8;
+        var margin = {top: 10, right: 30, bottom: 20, left: 45},
+        width = (screen_width - (margin.left*2) - (margin.right*2)) ,
+        height = 500 - margin.top - margin.bottom;
+
+        // data goes here
+        var data=[["Gansu",48],
+        ["Qinghai",17],
+        ["Gansu",19],
+        ["Guangxi",15],
+        ["Guizhou",15],
+        ["Chongqing",34],
+        ["Beijing",62],
+        ["Fujian",45],
+        ["Anhui",6],
+        ["Guangdong",59],
+        ["Xizang",3],
+        ["Xinjiang",12],
+        ["Hainan",15],
+        ["Ningxia",8],
+        ["Shaanxi",24],
+        ["Shanxi",11],
+        ["Hubei",29],
+        ["Hunan",23],
+        ["Sichuan",19],
+        ["Yunnan",19],
+        ["Hebei",34],
+        ["Henan",40],
+        ["Liaoning",14],
+        ["Shandong",33],
+        ["Tianjin",29],
+        ["Jiangxi",20],["Jiangsu",57],["Shanghai",64],["Zhejiang",59],["Jilin",38],["Inner Mongol",10],["Heilongjiang",20],["Taiwan",15],["Xianggang",35],["Macau",10]];
+
+        var title='Population of Sina Weibo users for a specific keyword';
+        var desc='Based on Sina Weibo user profiles during a period of time. Data from weiboscope.';
+        var credits='by Clement Renaud - 2013';var units='Volume of tweets';
+
+
+
+                   </script>
+
+                   <script src="{{ site.baseurl }}assets/weibojs/d3map.js"></script>
+
