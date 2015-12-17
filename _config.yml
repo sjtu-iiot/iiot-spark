@@ -16,9 +16,9 @@ baseurl:          /
 
 pages_list:
   Home:  '/'
-  People: '/people'
-  Projects:   '/projects'
-  Data:   '/data'
-  Contact:  '/contact'
+  People: '/iiot/people'
+  Projects:   '/iiot/projects'
+  Data:   '/iiot/data'
+  Contact:  '/iiot/contact'
 
 excerpt_separator:  <!--more-->
