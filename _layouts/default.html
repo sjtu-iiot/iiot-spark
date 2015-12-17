@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+    {% include header.html %}
+
+    <body>
+
+       <div class="container" style="max-width: 1000px;">
+
+		   <div class="masthead">
+
+			   <!-- <div class="jumbotron">
+				<b>Apache Spark</b>  a fast and general engine for large-scale data processing.
+				 </div> -->
+			   <h1 style="text-align:left">SJTU SPARK</h1>
+
+		   </div>
+		   <!--
+		   <div>
+		      <div class="container">
+			  <nav class="blog-nav">
+			      {% for pages in site.pages_list %}
+				  {% if  page.title  ==  pages[0] %}
+				      <a class="blog-nav-item active" href="{{ pages[1]  }}">{{ pages[0] }}</a>
+				  {% else %}
+				      <a class="blog-nav-item" href="{{ pages[1]  }}">{{ pages[0] }}</a>
+				  {% endif%}
+			      {% endfor %}
+			  </nav>
+		      </div>
+		    </div>
+		    -->
+
+		    <nav class="navbar navbar-default" role="navigation">
+			    <!-- Brand and toggle get grouped for better mobile display -->
+			    <div class="navbar-header">
+				    <button type="button" class="navbar-toggle" data-toggle="collapse"
+					    data-target="#navbar-collapse-1">
+					    <span class="sr-only">Toggle navigation</span>
+					    <span class="icon-bar"></span>
+					    <span class="icon-bar"></span>
+					    <span class="icon-bar"></span>
+				    </button>
+			    </div>
+
+			    <!-- Collect the nav links, forms, and other content for toggling -->
+			    <div class="collapse navbar-collapse" id="navbar-collapse-1">
+				    <ul class="nav navbar-nav">
+			                    {% for pages in site.pages_list %}
+                                <li><a href="{{ site.baseurl }}{{ pages[1]  }}">{{ pages[0] }}</a></li>
+			                    {% endfor %}
+				    </ul>
+			    </div>
+			    <!-- /.navbar-collapse -->
+		    </nav>
+
+		{{ content }}
+
+
+		{% include footer.html %}
+
+        </div>
+    </body>
+</html>

@@ -1,0 +1,127 @@
+/*
+ * jQuery FlexSlider v2.2.0
+ * http://www.woothemes.com/flexslider/
+ *
+ * Copyright 2012 WooThemes
+ * Free to use under the GPLv2 license.
+ * http://www.gnu.org/licenses/gpl-2.0.html
+ *
+ * Contributing author: Tyler Smith (@mbmufffin)
+ */
+
+
+/* Browser Resets
+
+.flex-container a:active,
+.flexslider a:active,
+.flex-container a:focus,
+.flexslider a:focus  {outline: none;}
+.slides,
+.flex-control-nav,
+.flex-direction-nav {margin: 0; padding: 0; list-style: none;}
+*********************************/
+
+/* Icon Fonts
+*********************************/
+/* Font-face Icons */
+@font-face {
+	font-family: 'flexslider-icon';
+	src:url('../fonts/flexslider-icon.eot');
+	src:url('../fonts/flexslider-icond41d.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/flexslider-icon.woff') format('woff'),
+		url('../fonts/flexslider-icon.ttf') format('truetype'),
+		url('../fonts/flexslider-icon.svg#flexslider-icon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+/* FlexSlider Necessary Styles
+*********************************/
+.flexslider, .team, .quotes, .portfolio-slider {margin: 0; padding: 0;}
+.flexslider .slides > li, .team .slides > li, .quotes .slides > li, .portfolio-slider .slides > li {display: none; -webkit-backface-visibility: hidden;} /* Hide the slides before the JS is loaded. Avoids image jumping */
+.flexslider .slides img, .team .slides img, .quotes .slides img, .portfolio-slider .slides img {width: 100%; display: block;}
+.flex-pauseplay span {text-transform: capitalize;}
+
+/* Clearfix for the .slides element */
+.slides:after { content: "\0020"; display: block; clear: both; visibility: hidden; line-height: 0; height: 0;}
+html[xmlns] .slides {display: block;}
+* html .slides {height: 1%;}
+
+/* No JavaScript Fallback */
+/* If you are not using another script, such as Modernizr, make sure you
+ * include js that eliminates this class on page load */
+.no-js .slides > li:first-child {display: block;}
+
+/* FlexSlider Default Theme
+*********************************/
+.flexslider, .team, .quotes, .portfolio-slider { margin: 0 0 60px; position: relative; zoom: 1; }
+.flex-viewport { max-height: 2000px; -webkit-transition: all 1s ease; -moz-transition: all 1s ease; -o-transition: all 1s ease; transition: all 1s ease; }
+.loading .flex-viewport { max-height: 300px; }
+.flexslider .slides, .team .slides, .quotes .slides, .portfolio-slider .slides { zoom: 1; }
+.carousel li { margin-right: 5px; }
+
+/* Directional Nav
+*********************************/
+.quotes .flex-direction-nav {*height: 0;}
+.quotes .flex-direction-nav a  { display: block; width: 40px; height: 40px; margin: 0 0 0; position: absolute; top: 100%; z-index: 70; overflow: hidden; opacity: 0.7; cursor: pointer; color: rgba(124,128,135,1); -webkit-transition: all .3s ease; -moz-transition: all .3s ease; transition: all .3s ease; }
+.quotes .flex-direction-nav .flex-prev { left: 10px; top: 50%; }
+.quotes .flex-direction-nav .flex-next { right: 10px; top: 50%; text-align: right; }
+/* .quotes:hover .flex-prev { opacity: 0.7; left: 10px; }
+.quotes:hover .flex-next { opacity: 0.7; right: 10px; } */
+.quotes:hover .flex-next:hover, .quotes:hover .flex-prev:hover { opacity: 1; }
+.quotes  .flex-direction-nav .flex-disabled { opacity: 0!important; filter:alpha(opacity=0); cursor: default; }
+.quotes .flex-direction-nav a:before  { font-family: "flexslider-icon"; font-size: 25px; display: inline-block; content: '\f001'; }
+.quotes .flex-direction-nav a.flex-next:before  { content: '\f002'; }
+
+/* Pause/Play */
+.flex-pauseplay a { display: block; width: 20px; height: 20px; position: absolute; bottom: 5px; left: 10px; opacity: 0.8; z-index: 10; overflow: hidden; cursor: pointer; color: #000; }
+.flex-pauseplay a:before  { font-family: "flexslider-icon"; font-size: 20px; display: inline-block; content: '\f004'; }
+.flex-pauseplay a:hover  { opacity: 1; }
+.flex-pauseplay a.flex-play:before { content: '\f003'; }
+
+/* Control Nav */
+.flexslider .flex-control-nav, .quotes .flex-control-nav, .portfolio-slider .flex-control-nav {width: 100%; position: absolute; bottom: -40px; text-align: center;}
+.portfolio-slider .flex-control-nav { bottom: -60px; }
+.flexslider .flex-control-nav li, .quotes .flex-control-nav li, .portfolio-slider .flex-control-nav li {width: 14px; height: 14px; margin: 0 6px; display: inline-block; zoom: 1; *display: inline;}
+.flexslider .flex-control-paging li a, .quotes .flex-control-paging li a, .portfolio-slider .flex-control-paging li a { width: 100%; height: 100%; display: block; border: 2px solid #bbbbbb; cursor: pointer; text-indent: -9999px; -webkit-border-radius: 60px; -moz-border-radius: 60px; -o-border-radius: 60px; border-radius: 60px; }
+/*.flex-control-paging li a:hover { background: #ccc; }*/
+/*.flex-control-paging li a.flex-active { background: #009afe; border: 2px solid #009afe; cursor: default; }*/
+
+.team { overflow: hidden; }
+.team .slides { text-align: center !important; }
+.team .flex-control-nav { position: relative; text-align: left; }
+.team .flex-control-nav li { padding-left: 15px; font-size: 16px; font-family: 'Montserrat', Helvetica, Arial, sans-serif; line-height: 2.5em; color: #8c9199; display: block; }
+
+.team .flex-control-nav li:hover, .team .flex-control-nav li:focus, .team .flex-control-nav li.flex-active { cursor: pointer; }
+.team .flex-control-nav li.flex-active { color: #fff; }
+
+.flexslider .flex-control-nav li a, .quotes .flex-control-nav li a, .portfolio-slider .flex-control-nav li a {
+	-webkit-transition: -webkit-transform 0.3s ease, all 0.1s ease;
+	-moz-transition: -moz-transform 0.3s ease, all 0.1s ease;
+	transition: -moz-transform 0.3s ease, all 0.1s ease;
+}
+
+
+.flexslider .flex-control-nav li a:hover,
+.flexslider .flex-control-nav li a:focus, .quotes .flex-control-nav li a:hover, .quotes .flex-control-nav li a:focus {
+	background-color: none;
+}
+
+.flexslider .flex-control-nav li a.flex-active, .quotes .flex-control-nav li a.flex-active {
+	border-color: #009989;
+	background-color: none;
+	-webkit-transform: scale(1.6);
+	-moz-transform: scale(1.6);
+	transform: scale(1.6);
+}
+
+.flexslider .flex-control-thumbs, .quotes .flex-control-thumbs {margin: 5px 0 0; position: static; overflow: hidden;}
+.flexslider .flex-control-thumbs li, .quotes .flex-control-thumbs li {width: 25%; float: left; margin: 0;}
+.flexslider .flex-control-thumbs img, .quotes .flex-control-thumbs img {width: 100%; display: block; opacity: .7; cursor: pointer;}
+.flexslider .flex-control-thumbs img:hover, .quotes .flex-control-thumbs img:hover {opacity: 1;}
+.flexslider .flex-control-thumbs .flex-active, .quotes .flex-control-thumbs .flex-active {opacity: 1; cursor: default;}
+
+@media screen and (max-width: 860px) {
+  .quotes .flex-direction-nav .flex-prev { opacity: 1; left: 10px;}
+  .quotes .flex-direction-nav .flex-next { opacity: 1; right: 10px;}
+}

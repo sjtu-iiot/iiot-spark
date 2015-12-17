@@ -1,0 +1,24 @@
+#Dependencies
+markdown:         kramdown
+highlighter:      pygments
+
+# Permalinks
+permalink:        pretty
+
+# Encoding
+encoding:         'utf-8'
+
+# Setup
+title:            Spark AT SJTU
+tagline:          Spark AT SJTU
+paginate:         8
+baseurl:          /iiot-spark/
+
+pages_list:
+  Home:  ''
+  People: 'people'
+  Projects:   'projects'
+  Data:   'data'
+  Contact:  'contact'
+
+excerpt_separator:  <!--more-->
